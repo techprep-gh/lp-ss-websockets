@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SSE Example</title>
+</head>
+<body>
+<h1>Server Sent Events Example</h1>
+<div id="events"></div>
+
+<script>
+// Create a new EventSource to receive server-sent events
+const eventSource = new EventSource('/events');
+
+// Handle incoming messages from the server
+eventSource.onmessage = function(event) {
+    // Append the received event data (timestamp) to the page
+    document.getElementById('events').innerHTML += 'New event: ' + event.data + '<br>';
+};
+</script>
+</body>
+</html>

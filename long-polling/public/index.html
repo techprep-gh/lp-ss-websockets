@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Long Polling Example</title>
+</head>
+<body>
+<h1>Long Polling Example</h1>
+<div id="messages"></div>
+
+<script>
+// Function to initiate polling
+function poll() {
+    fetch('/poll') // Send a request to the poll endpoint
+    .then(response => response.json()) // Parse the JSON response
+    .then(data => {
+        // Append the received message to the messages div
+        document.getElementById('messages').innerText += `${data.message}\n`;
+        poll(); // Re-establish the connection immediately after receiving a message
+    })
+    .catch(err => console.log('Polling error:', err)); // Log errors if any
+}
+
+// Start polling when the page loads
+poll();
+</script>
+</body>
+</html>

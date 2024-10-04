@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>WebSocket Chat Example</title>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Establish a WebSocket connection with the server
+        const ws = new WebSocket("ws://localhost:3001");
+        const messages = document.getElementById("messages");
+        const form = document.getElementById("form");
+        const input = document.getElementById("input");
+
+        // Handle form submission (sending a message)
+        form.addEventListener("submit", function (e) {
+          e.preventDefault(); // Prevent page reload
+          if (input.value) {
+            ws.send(input.value); // Send message to the WebSocket server
+            input.value = ""; // Clear input after sending
+          }
+        });
+
+        // Handle incoming messages from the WebSocket server
+        ws.onmessage = function (event) {
+          if (!(event.data instanceof Blob)) {
+            displayMessage(event.data); // Display message in the chat
+          }
+        };
+
+        // Function to display messages in the DOM
+        function displayMessage(msg) {
+          const item = document.createElement("li");
+          item.textContent = msg;
+          messages.appendChild(item); // Add new message to the list
+        }
+      });
+    </script>
+  </head>
+  <body>
+    <form id="form">
+      <input id="input" autocomplete="off" /><button>Send</button>
+    </form>
+    <ul id="messages"></ul>
+  </body>
+</html>
